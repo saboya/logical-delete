@@ -12,40 +12,40 @@ import org.codehaus.groovy.transform.ASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-public class LogicalDeleteASTTRansformation implements ASTTransformation{
+public class LogicalDeleteASTTRansformation implements ASTTransformation {
 
-	public final static String DELETED_FIELD_NAME = "deleted";
-	public final static String LIST_DELETED_METHOD_NAME = "listDeleted";
-	public final static int CLASS_NODE_ORDER = 1;
+    public final static String DELETED_FIELD_NAME = "deleted";
+    public final static String LIST_DELETED_METHOD_NAME = "listDeleted";
+    public final static int CLASS_NODE_ORDER = 1;
 
-	@Override
-	public void visit(ASTNode[] nodes, SourceUnit source) {
-		if(!validate(nodes))return;
-		ClassNode classNode = (ClassNode)nodes[CLASS_NODE_ORDER];
-		addDeletedProperty(classNode);
-		addListDeletedMethod(classNode);
-		implementDeletedDomainClassInterface(classNode);
-	}
+    @Override
+    public void visit(ASTNode[] nodes, SourceUnit source) {
+        if (!validate(nodes)) return;
+        ClassNode classNode = (ClassNode) nodes[CLASS_NODE_ORDER];
+        addDeletedProperty(classNode);
+        addListDeletedMethod(classNode);
+        implementDeletedDomainClassInterface(classNode);
+    }
 
-	private boolean validate(ASTNode[] nodes){
-		return nodes != null && nodes[0] != null && nodes[1] != null;
-	}
+    private boolean validate(ASTNode[] nodes) {
+        return nodes != null && nodes[0] != null && nodes[1] != null;
+    }
 
-	private void addDeletedProperty(ClassNode node) {
-		if(!GrailsASTUtils.hasOrInheritsProperty(node, DELETED_FIELD_NAME)){
-			node.addProperty(DELETED_FIELD_NAME, Modifier.PUBLIC, new ClassNode(Boolean.class), ConstantExpression.FALSE, null, null);
-		}
-	}
-	
-	private void addListDeletedMethod(ClassNode node) {
-		
-	}
+    private void addDeletedProperty(ClassNode node) {
+        if (!GrailsASTUtils.hasOrInheritsProperty(node, DELETED_FIELD_NAME)) {
+            node.addProperty(DELETED_FIELD_NAME, Modifier.PUBLIC, new ClassNode(Boolean.class), ConstantExpression.FALSE, null, null);
+        }
+    }
 
-	private void implementDeletedDomainClassInterface(ClassNode node){
-		ClassNode iNode = new ClassNode(LogicalDeleteDomainClass.class);
-		if(!iNode.implementsInterface(iNode)){
-			node.addInterface(iNode);
-		}
-	}
+    private void addListDeletedMethod(ClassNode node) {
+
+    }
+
+    private void implementDeletedDomainClassInterface(ClassNode node) {
+        ClassNode iNode = new ClassNode(LogicalDeleteDomainClass.class);
+        if (!iNode.implementsInterface(iNode)) {
+            node.addInterface(iNode);
+        }
+    }
 
 }
