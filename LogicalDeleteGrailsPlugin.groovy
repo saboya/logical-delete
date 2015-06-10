@@ -25,6 +25,10 @@ aims to implement logical deletion using GORM only.
     def issueManagement = [system: 'GITHUB', url: 'https://github.com/saboya/logical-delete/issues']
     def scm = [url: 'https://github.com/saboya/logical-delete']
 
+    def pluginExcludes = [
+            "grails-app/domain/**"
+    ]
+
     def doWithSpring = {
     }
 
