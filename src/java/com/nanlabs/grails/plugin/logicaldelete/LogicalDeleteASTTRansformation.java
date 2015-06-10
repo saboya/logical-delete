@@ -2,10 +2,7 @@ package com.nanlabs.grails.plugin.logicaldelete;
 
 import java.lang.reflect.Modifier;
 
-import org.codehaus.groovy.ast.ASTNode;
-import org.codehaus.groovy.ast.AnnotationNode;
-import org.codehaus.groovy.ast.ClassNode;
-import org.codehaus.groovy.ast.Parameter;
+import org.codehaus.groovy.ast.*;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.control.CompilePhase;
@@ -34,7 +31,7 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
     private void addDeletedProperty(ClassNode node) {
         String propertyName = getPropertyName(node);
         if (!GrailsASTUtils.hasOrInheritsProperty(node, propertyName)) {
-            node.addProperty(propertyName, Modifier.PUBLIC, new ClassNode(Boolean.class), ConstantExpression.FALSE, null, null);
+            node.addProperty(propertyName, Modifier.PUBLIC, ClassHelper.boolean_TYPE, ConstantExpression.FALSE, null, null);
         }
     }
 
