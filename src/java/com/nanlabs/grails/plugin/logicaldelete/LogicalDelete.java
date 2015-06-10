@@ -11,5 +11,5 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass;
 @Retention(RetentionPolicy.RUNTIME)
 @GroovyASTTransformationClass({"com.nanlabs.grails.plugin.logicaldelete.LogicalDeleteASTTRansformation"})
 public @interface LogicalDelete {
-
+    String property() default "deleted";
 }

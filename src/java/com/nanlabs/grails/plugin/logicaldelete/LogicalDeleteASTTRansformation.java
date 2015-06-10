@@ -3,8 +3,10 @@ package com.nanlabs.grails.plugin.logicaldelete;
 import java.lang.reflect.Modifier;
 
 import org.codehaus.groovy.ast.ASTNode;
+import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.ClassNode;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
+import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.grails.compiler.injection.GrailsASTUtils;
@@ -14,7 +16,6 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class LogicalDeleteASTTRansformation implements ASTTransformation {
 
-    public final static String DELETED_FIELD_NAME = "deleted";
     public final static int CLASS_NODE_ORDER = 1;
 
     @Override
@@ -30,9 +31,24 @@ public class LogicalDeleteASTTRansformation implements ASTTransformation {
     }
 
     private void addDeletedProperty(ClassNode node) {
-        if (!GrailsASTUtils.hasOrInheritsProperty(node, DELETED_FIELD_NAME)) {
-            node.addProperty(DELETED_FIELD_NAME, Modifier.PUBLIC, new ClassNode(Boolean.class), ConstantExpression.FALSE, null, null);
+        String propertyName = getPropertyName(node);
+        if (!GrailsASTUtils.hasOrInheritsProperty(node, propertyName)) {
+            node.addProperty(propertyName, Modifier.PUBLIC, new ClassNode(Boolean.class), ConstantExpression.FALSE, null, null);
         }
+    }
+
+    private String getPropertyName(ClassNode node) {
+        AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, LogicalDelete.class);
+        ConstantExpression exp = (ConstantExpression)annotation.getMember("property");
+        if(exp == null) {
+            return getDefaultAnnotationArgumentValue(annotation);
+        }
+        return (String)exp.getValue();
+    }
+
+    private String getDefaultAnnotationArgumentValue(AnnotationNode annotation) {
+        ReturnStatement stmt = (ReturnStatement)annotation.getClassNode().getMethods("property").get(0).getCode();
+        return (String)((ConstantExpression)stmt.getExpression()).getValue();
     }
 
     private void implementDeletedDomainClassInterface(ClassNode node) {
