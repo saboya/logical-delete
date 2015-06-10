@@ -37,7 +37,7 @@ class LogicalDeleteDomainClassEnhancer {
                 closure()
             } finally {
                 delegate.withSession { Session session ->
-                    session.clearSessionProperty(PHYSICAL_PARAM, true)
+                    session.clearSessionProperty(PHYSICAL_PARAM)
                 }
             }
         }
