@@ -1,3 +1,4 @@
 jar {
     exclude "grails-app/domain/**"
+    exclude "grails-app/services/TestService"
 }
