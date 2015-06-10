@@ -12,7 +12,7 @@ class ListenerService implements ApplicationListener<PreQueryEvent> {
     void onApplicationEvent(PreQueryEvent event) {
         if(LogicalDeleteDomainClass.isAssignableFrom(event.query.entity.javaClass)) {
             if(!event.query.session.getSessionProperty(LogicalDeleteDomainClassEnhancer.PHYSICAL_PARAM)) {
-                log.debug('logical delete query')
+                event.query.eq('deleted',false)
             }
         }
     }
