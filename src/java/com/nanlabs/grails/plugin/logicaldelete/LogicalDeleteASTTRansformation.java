@@ -11,11 +11,11 @@ import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.grails.compiler.injection.GrailsASTUtils;
-import org.codehaus.groovy.transform.ASTTransformation;
+import org.codehaus.groovy.transform.AbstractASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-public class LogicalDeleteASTTRansformation implements ASTTransformation {
+public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
 
     public final static int CLASS_NODE_ORDER = 1;
 
@@ -40,11 +40,7 @@ public class LogicalDeleteASTTRansformation implements ASTTransformation {
 
     private String getPropertyName(ClassNode node) {
         AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, LogicalDelete.class);
-        ConstantExpression exp = (ConstantExpression)annotation.getMember("property");
-        if(exp == null) {
-            return getDefaultAnnotationArgumentValue(annotation);
-        }
-        return (String)exp.getValue();
+        return getMemberStringValue(annotation,"property",getDefaultAnnotationArgumentValue(annotation));
     }
 
     private String getDefaultAnnotationArgumentValue(AnnotationNode annotation) {
