@@ -30,6 +30,8 @@ aims to implement logical deletion using GORM only.
             "grails-app/services/TestService"
     ]
 
+    def loadAfter = ['controllers', 'domainClass']
+
     def doWithSpring = {
     }
 
