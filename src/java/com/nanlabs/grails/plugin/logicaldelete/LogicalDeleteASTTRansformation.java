@@ -5,6 +5,7 @@ import java.lang.reflect.Modifier;
 import org.codehaus.groovy.ast.ASTNode;
 import org.codehaus.groovy.ast.AnnotationNode;
 import org.codehaus.groovy.ast.ClassNode;
+import org.codehaus.groovy.ast.Parameter;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.control.CompilePhase;
@@ -47,7 +48,7 @@ public class LogicalDeleteASTTRansformation implements ASTTransformation {
     }
 
     private String getDefaultAnnotationArgumentValue(AnnotationNode annotation) {
-        ReturnStatement stmt = (ReturnStatement)annotation.getClassNode().getMethods("property").get(0).getCode();
+        ReturnStatement stmt = (ReturnStatement)annotation.getClassNode().getMethod("property", Parameter.EMPTY_ARRAY).getCode();
         return (String)((ConstantExpression)stmt.getExpression()).getValue();
     }
 
