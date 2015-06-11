@@ -4,5 +4,5 @@ public interface LogicalDeleteDomainClass {
 
     boolean getDeletedState();
 
-    void setDeletedState(boolean newValue);
+    void setLogicalDeleteState(boolean newValue);
 }
