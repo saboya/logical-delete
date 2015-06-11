@@ -1,4 +1,5 @@
 import com.b2wdigital.grails.plugin.logicaldelete.LogicalDeleteDomainClassEnhancer
+import com.b2wdigital.grails.plugin.logicaldelete.PreQueryListener
 
 class LogicalDeleteGrailsPlugin {
     def version = "0.1"
@@ -32,10 +33,8 @@ aims to implement logical deletion using GORM only.
 
     def loadAfter = ['controllers', 'domainClass']
 
-    def doWithSpring = {
-    }
-
     def doWithDynamicMethods = { ctx ->
+        ctx.addApplicationListener(new PreQueryListener())
         LogicalDeleteDomainClassEnhancer.enhance(application.domainClasses)
     }
 }
