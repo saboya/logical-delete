@@ -11,7 +11,6 @@ import spock.lang.Specification
  */
 @TestFor(TestService)
 @Mock(TestDomain)
-@Ignore
 class TestServiceSpec extends Specification {
 
     def setup() {
@@ -19,32 +18,38 @@ class TestServiceSpec extends Specification {
     }
 
     void "saving annotated domain"() {
-        given: "nothing"
+        given: "I have 3 non-deleted domains"
+            createTestDomains(3)
 
-        when: "Save is called"
+        when: "Save on a new domain is called"
             service.saveTestDomain("test name")
 
-        then:
-            assert TestDomain.list().size(), 1
-            assert TestDomain.find().deleted, false
+        then: "I should have 4 non-deleted domains"
+            assert TestDomain.list().size(), 4
+            assert !TestDomain.findByName("test name").deleted, !false
     }
 
     void "deleting annotated domain"() {
-        given:
-            List<TestDomain> testDomains = createTestDomains()
+        given: "I have non-deleted domains"
+            createTestDomains(3)
 
-        when:
-            service.deleteTestDomain(testDomains.first())
+        when: "I delete one domain"
+            service.deleteTestDomain(TestDomain.first())
 
-        then:
-            assert TestDomain.findAll().size(), 2
-            TestDomain.withDeleted {
-                assert TestDomain.findAll().size(), 3
-            }
+        then: "I should have X non-deleted domains, and X+1 domains overall"
+            assert TestDomain.findAll().size()+1, withDeletedCount()
     }
 
-    private def createTestDomains() {
-        3.times {
+    private int withDeletedCount() {
+        def count
+        TestDomain.withDeleted {
+             count = TestDomain.findAll().size()
+        }
+        return count
+    }
+
+    private void createTestDomains(int qty) {
+        qty.times {
             new TestDomain(name: "name " + it).save()
         }
     }
