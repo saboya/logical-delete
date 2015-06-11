@@ -11,7 +11,17 @@ class TestService {
         testDomain.save()
     }
 
-    def deleteTestDomain(TestDomain testDomain) {
-        testDomain.delete()
+    def deleteTestDomain(TestDomain instance) {
+        instance.delete()
+    }
+
+    def saveTestDomainCustom(String name) {
+        def instance = new TestDomainCustom()
+        instance.name = name
+        instance.save()
+    }
+
+    def deleteTestDomainCustom(TestDomainCustom instance) {
+        instance.delete()
     }
 }
