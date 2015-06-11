@@ -31,7 +31,7 @@ aims to implement logical deletion using GORM only.
             "grails-app/services/TestService"
     ]
 
-    def loadAfter = ['controllers', 'domainClass']
+    def loadAfter = ['domainClass']
 
     def doWithDynamicMethods = { ctx ->
         ctx.addApplicationListener(new PreQueryListener())
