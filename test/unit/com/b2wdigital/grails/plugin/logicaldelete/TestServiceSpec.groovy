@@ -1,9 +1,7 @@
 package com.b2wdigital.grails.plugin.logicaldelete
 
-import com.nanlabs.grails.plugin.logicaldelete.LogicalDeleteDomainClassEnhancer
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
-import spock.lang.Ignore
 import spock.lang.Specification
 
 /**

@@ -1,4 +1,4 @@
-package com.nanlabs.grails.plugin.logicaldelete
+package com.b2wdigital.grails.plugin.logicaldelete
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

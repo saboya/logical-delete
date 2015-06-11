@@ -1,8 +1,6 @@
-package com.nanlabs.grails.plugin.logicaldelete;
+package com.b2wdigital.grails.plugin.logicaldelete;
 
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.codehaus.groovy.ast.*;
 import org.codehaus.groovy.ast.builder.AstBuilder;
