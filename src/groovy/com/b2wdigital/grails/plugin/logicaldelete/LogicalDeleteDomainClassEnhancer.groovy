@@ -10,7 +10,7 @@ class LogicalDeleteDomainClassEnhancer {
 
     public static final String PHYSICAL_PARAM = 'logicalDelete'
 
-    private static final String PHYSICAL_SESSION = 'physicalSession'
+    public static final String PHYSICAL_SESSION = 'physicalSession'
 
     static void enhance(domainClasses) {
         for (domainClass in domainClasses) {
