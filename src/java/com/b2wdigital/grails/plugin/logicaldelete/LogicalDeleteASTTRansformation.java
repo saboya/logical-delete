@@ -16,11 +16,11 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
 
-    private final static String GETTER_METHOD_NAME = "getDeletedState";
-    private final static String SETTER_METHOD_NAME = "setLogicalDeleteState";
-    private final static String STATIC_PROPERTY_NAME = "deletedStateProperty";
-    private final static String STATIC_DELETED_VALUE_NAME = "deletedStateValue";
-    private final static String SETTER_PARAM_NAME = "newValue";
+    public final static String GETTER_METHOD_NAME = "getDeletedState";
+    public final static String SETTER_METHOD_NAME = "setLogicalDeleteState";
+    public final static String STATIC_PROPERTY_NAME = "deletedStateProperty";
+    public final static String STATIC_DELETED_VALUE_NAME = "deletedStateValue";
+    public final static String SETTER_PARAM_NAME = "newValue";
     public final static int CLASS_NODE_ORDER = 1;
 
     @Override
