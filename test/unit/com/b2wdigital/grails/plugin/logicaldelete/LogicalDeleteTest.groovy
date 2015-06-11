@@ -1,4 +1,4 @@
-package com.nanlabs.grails.plugin.logicaldelete
+package com.b2wdigital.grails.plugin.logicaldelete
 
 import org.junit.Ignore
 

@@ -1,7 +1,5 @@
 package com.b2wdigital.grails.plugin.logicaldelete
 
-import com.nanlabs.grails.plugin.logicaldelete.LogicalDeleteDomainClass
-import com.nanlabs.grails.plugin.logicaldelete.LogicalDeleteDomainClassEnhancer
 import org.grails.datastore.mapping.query.event.PreQueryEvent
 import org.springframework.context.ApplicationListener
 

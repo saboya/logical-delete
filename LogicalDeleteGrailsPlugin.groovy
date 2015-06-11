@@ -1,4 +1,4 @@
-import com.nanlabs.grails.plugin.logicaldelete.LogicalDeleteDomainClassEnhancer
+import com.b2wdigital.grails.plugin.logicaldelete.LogicalDeleteDomainClassEnhancer
 
 class LogicalDeleteGrailsPlugin {
     def version = "0.1"
