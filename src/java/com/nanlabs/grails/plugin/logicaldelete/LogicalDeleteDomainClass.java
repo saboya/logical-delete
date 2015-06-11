@@ -2,7 +2,7 @@ package com.nanlabs.grails.plugin.logicaldelete;
 
 public interface LogicalDeleteDomainClass {
 
-    boolean getDeleted();
+    boolean getDeletedState();
 
-    void setDeleted(boolean deleted);
+    void setDeletedState(boolean newValue);
 }
