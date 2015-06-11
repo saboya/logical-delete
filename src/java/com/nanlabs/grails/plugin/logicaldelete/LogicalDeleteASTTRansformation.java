@@ -19,7 +19,7 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
 
     private final static String GETTER_METHOD_NAME = "getDeletedState";
-    private final static String SETTER_METHOD_NAME = "setDeletedState";
+    private final static String SETTER_METHOD_NAME = "setLogicalDeleteState";
     private final static String STATIC_PROPERTY_NAME = "deletedStateProperty";
     private final static String SETTER_PARAM_NAME = "newValue";
     public final static int CLASS_NODE_ORDER = 1;
@@ -60,7 +60,7 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
     private MethodNode makeGetterMethod(String propertyName) {
         MethodNode node = new MethodNode(
                 GETTER_METHOD_NAME,
-                Modifier.PUBLIC | Modifier.TRANSIENT,
+                Modifier.PUBLIC,
                 ClassHelper.boolean_TYPE,
                 Parameter.EMPTY_ARRAY,
                 null,
@@ -76,7 +76,7 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
         params[0] = new Parameter(ClassHelper.boolean_TYPE,SETTER_PARAM_NAME);
         MethodNode node = new MethodNode(
                 SETTER_METHOD_NAME,
-                Modifier.PUBLIC | Modifier.TRANSIENT,
+                Modifier.PUBLIC,
                 ClassHelper.VOID_TYPE,
                 params,
                 null,
