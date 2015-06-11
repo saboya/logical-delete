@@ -4,7 +4,6 @@ import org.grails.datastore.mapping.query.event.PreQueryEvent
 import org.springframework.context.ApplicationListener
 
 class PreQueryListener implements ApplicationListener<PreQueryEvent> {
-    static transactional = false
 
     @Override
     void onApplicationEvent(PreQueryEvent event) {
