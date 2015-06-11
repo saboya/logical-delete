@@ -7,9 +7,10 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
 
     @Override
     void onApplicationEvent(PreQueryEvent event) {
-        if(LogicalDeleteDomainClass.isAssignableFrom(event.query.entity.javaClass)) {
+        def domainClass = event.query.entity.javaClass
+        if(LogicalDeleteDomainClass.isAssignableFrom(domainClass)) {
             if(!event.query.session.getSessionProperty(LogicalDeleteDomainClassEnhancer.PHYSICAL_SESSION)) {
-                event.query.eq(event.query.entity.javaClass.deletedStateProperty,false)
+                event.query.eq(domainClass.deletedStateProperty,!domainClass.deletedStateValue)
             }
         }
     }
