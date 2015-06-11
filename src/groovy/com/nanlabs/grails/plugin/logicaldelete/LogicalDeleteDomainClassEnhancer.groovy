@@ -10,7 +10,7 @@ class LogicalDeleteDomainClassEnhancer {
 
     public static final String PHYSICAL_PARAM = 'logicalDelete'
 
-    private static final String DELETED_PARAM = 'deletedValue'
+    private static final String PHYSICAL_SESSION = 'physicalSession'
 
     static void enhance(domainClasses) {
         for (domainClass in domainClasses) {
@@ -31,13 +31,13 @@ class LogicalDeleteDomainClassEnhancer {
 
         clazz.metaClass.static.withDeleted = { Closure closure ->
             delegate.withSession { Session session ->
-                session.setSessionProperty(PHYSICAL_PARAM, true)
+                session.setSessionProperty(PHYSICAL_SESSION, true)
             }
             try {
                 closure()
             } finally {
                 delegate.withSession { Session session ->
-                    session.clearSessionProperty(PHYSICAL_PARAM)
+                    session.clearSessionProperty(PHYSICAL_SESSION)
                 }
             }
         }
@@ -55,7 +55,7 @@ class LogicalDeleteDomainClassEnhancer {
         }
 
         clazz.metaClass.delete = { Map m ->
-            if (m[PHYSICAL_PARAM] && m[PHYSICAL_PARAM]) {
+            if (m.containsKey(PHYSICAL_PARAM) && !m[PHYSICAL_PARAM]) {
                 if (m.count { true } > 1) {
                     def args = m.dropWhile { it.key == PHYSICAL_PARAM }
                     gormDeleteWithArgsMethod.invoke(delegate, args)
