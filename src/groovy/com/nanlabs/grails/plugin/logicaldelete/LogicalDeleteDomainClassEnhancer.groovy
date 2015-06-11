@@ -8,7 +8,7 @@ class LogicalDeleteDomainClassEnhancer {
 
     private static final Logger log = LoggerFactory.getLogger(this)
 
-    public static final String PHYSICAL_PARAM = 'logical_delete-physical'
+    public static final String PHYSICAL_PARAM = 'logicalDelete'
 
     private static final String DELETED_PARAM = 'deletedValue'
 
@@ -55,7 +55,7 @@ class LogicalDeleteDomainClassEnhancer {
         }
 
         clazz.metaClass.delete = { Map m ->
-            if (m[PHYSICAL_PARAM]) {
+            if (m[PHYSICAL_PARAM] && m[PHYSICAL_PARAM]) {
                 if (m.count { true } > 1) {
                     def args = m.dropWhile { it.key == PHYSICAL_PARAM }
                     gormDeleteWithArgsMethod.invoke(delegate, args)
