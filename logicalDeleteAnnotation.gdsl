@@ -1,0 +1,27 @@
+import com.b2wdigital.grails.plugin.logicaldelete.LogicalDeleteASTTRansformation
+
+//contributor(context(ctype: "org.codehaus.groovy.grails.commons.GrailsDomainClass", scope: scriptScope())) {
+contributor(context()) {
+    if (classType?.hasAnnotation("com.b2wdigital.grails.plugin.logicaldelete.LogicalDelete")) {
+        method name: "withDeleted",
+                type: "void",
+                params:[callable: {}],
+                isStatic: true
+
+        method name: LogicalDeleteASTTRansformation.SETTER_METHOD_NAME,
+                type: "void",
+                params: [newValue: "boolean"]
+
+        method name: LogicalDeleteASTTRansformation.GETTER_METHOD_NAME,
+                type: "boolean",
+                params: []
+
+        property name: LogicalDeleteASTTRansformation.STATIC_PROPERTY_NAME,
+                type: "java.lang.String",
+                isStatic: true
+
+        property name: LogicalDeleteASTTRansformation.STATIC_DELETED_VALUE_NAME,
+                type: "java.lang.Boolean",
+                isStatic: true
+    }
+}
