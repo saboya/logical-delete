@@ -19,6 +19,7 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
     private final static String GETTER_METHOD_NAME = "getDeletedState";
     private final static String SETTER_METHOD_NAME = "setLogicalDeleteState";
     private final static String STATIC_PROPERTY_NAME = "deletedStateProperty";
+    private final static String STATIC_DELETED_VALUE_NAME = "deletedStateValue";
     private final static String SETTER_PARAM_NAME = "newValue";
     public final static int CLASS_NODE_ORDER = 1;
 
@@ -37,14 +38,30 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
 
     private void addDeletedProperty(ClassNode node) {
         String propertyName = getPropertyName(node);
+        boolean deletedState = getDeletedState(node);
         if (!GrailsASTUtils.hasOrInheritsProperty(node, propertyName)) {
-            node.addProperty(propertyName, Modifier.PUBLIC, ClassHelper.boolean_TYPE, ConstantExpression.FALSE, null, null);
+            node.addProperty(
+                    propertyName,
+                    Modifier.PUBLIC,
+                    ClassHelper.boolean_TYPE,
+                    new ConstantExpression(!deletedState,true),
+                    null,
+                    null
+            );
         }
         node.addProperty(
                 STATIC_PROPERTY_NAME,
                 Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL,
                 ClassHelper.STRING_TYPE,
                 new ConstantExpression(propertyName),
+                null,
+                null
+        );
+        node.addProperty(
+                STATIC_DELETED_VALUE_NAME,
+                Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL,
+                ClassHelper.boolean_TYPE,
+                new ConstantExpression(deletedState,true),
                 null,
                 null
         );
@@ -88,6 +105,14 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
     private String getPropertyName(ClassNode node) {
         AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, LogicalDelete.class);
         return getMemberStringValue(annotation,"property",getDefaultAnnotationArgumentValue(annotation));
+    }
+
+    private boolean getDeletedState(ClassNode node) {
+        AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, LogicalDelete.class);
+        if(getMemberValue(annotation,"deletedValue") == null) {
+            return true;
+        }
+        return (Boolean)getMemberValue(annotation, "deletedValue");
     }
 
     private String getDefaultAnnotationArgumentValue(AnnotationNode annotation) {

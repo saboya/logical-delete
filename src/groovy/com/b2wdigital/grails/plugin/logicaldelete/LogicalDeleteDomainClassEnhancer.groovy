@@ -70,7 +70,7 @@ class LogicalDeleteDomainClassEnhancer {
 
     private static deleteAction = { aSave, aDelegate, args = null ->
         log.debug "Applying logical delete to domain class ${aDelegate.class}"
-        aDelegate.setLogicalDeleteState(true)
+        aDelegate.setLogicalDeleteState(aDelegate.deletedStateValue)
         if (args) aSave.invoke(aDelegate) else aSave.invoke(aDelegate, args)
     }
 }
