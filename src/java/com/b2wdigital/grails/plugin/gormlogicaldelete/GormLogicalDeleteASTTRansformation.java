@@ -1,11 +1,9 @@
-package com.b2wdigital.grails.plugin.logicaldelete;
+package com.b2wdigital.grails.plugin.gormlogicaldelete;
 
 import java.lang.reflect.Modifier;
 
 import org.codehaus.groovy.ast.*;
-import org.codehaus.groovy.ast.builder.AstBuilder;
 import org.codehaus.groovy.ast.expr.ConstantExpression;
-import org.codehaus.groovy.ast.stmt.BlockStatement;
 import org.codehaus.groovy.ast.stmt.ReturnStatement;
 import org.codehaus.groovy.control.CompilePhase;
 import org.codehaus.groovy.control.SourceUnit;
@@ -14,7 +12,7 @@ import org.codehaus.groovy.transform.AbstractASTTransformation;
 import org.codehaus.groovy.transform.GroovyASTTransformation;
 
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
-public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
+public class GormLogicalDeleteASTTRansformation extends AbstractASTTransformation {
 
     public final static int CLASS_NODE_ORDER = 1;
 
@@ -45,12 +43,12 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
     }
 
     private String getPropertyName(ClassNode node) {
-        AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, LogicalDelete.class);
+        AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, GormLogicalDelete.class);
         return getMemberStringValue(annotation,"property",getDefaultAnnotationArgumentValue(annotation));
     }
 
     private boolean getDeletedState(ClassNode node) {
-        AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, LogicalDelete.class);
+        AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, GormLogicalDelete.class);
         if(getMemberValue(annotation,"deletedState") == null) {
             return true;
         }

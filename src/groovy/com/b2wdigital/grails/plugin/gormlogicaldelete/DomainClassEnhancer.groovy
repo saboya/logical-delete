@@ -1,11 +1,11 @@
-package com.b2wdigital.grails.plugin.logicaldelete
+package com.b2wdigital.grails.plugin.gormlogicaldelete
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.grails.datastore.mapping.core.Session
 import java.lang.annotation.Annotation
 
-class LogicalDeleteDomainClassEnhancer {
+class DomainClassEnhancer {
 
     private static final Logger log = LoggerFactory.getLogger(this)
 
@@ -27,7 +27,7 @@ class LogicalDeleteDomainClassEnhancer {
     }
 
     private static void cacheParameters(Class clazz) {
-        Annotation a = clazz.getAnnotation(LogicalDelete)
+        Annotation a = clazz.getAnnotation(GormLogicalDelete)
         classProperties.put(clazz,[
                 property: a.property(),
                 deletedState: a.deletedState()
@@ -35,7 +35,7 @@ class LogicalDeleteDomainClassEnhancer {
     }
 
     private static boolean mustBeEnhanced(Class clazz) {
-        clazz.isAnnotationPresent(LogicalDelete)
+        clazz.isAnnotationPresent(GormLogicalDelete)
     }
 
     private static void addListDeletedMethod(clazz) {

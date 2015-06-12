@@ -1,7 +1,7 @@
-package com.b2wdigital.grails.plugin.logicaldelete
+package com.b2wdigital.grails.plugin.gormlogicaldelete
 
-def packageName = "com.b2wdigital.grails.plugin.logicaldelete."
-def annotationClassFqn = packageName + "LogicalDelete"
+def packageName = "com.b2wdigital.grails.plugin.gormlogicaldelete."
+def annotationClassFqn = packageName + "GormLogicalDelete"
 def ctx = context(ctype: hasAnnotation(annotationClassFqn))
 
 contributor(ctx) {

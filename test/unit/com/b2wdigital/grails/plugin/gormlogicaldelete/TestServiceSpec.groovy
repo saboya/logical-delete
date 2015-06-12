@@ -1,4 +1,4 @@
-package com.b2wdigital.grails.plugin.logicaldelete
+package com.b2wdigital.grails.plugin.gormlogicaldelete
 
 import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
@@ -9,7 +9,7 @@ import spock.lang.Specification
 class TestServiceSpec extends Specification {
 
     def setup() {
-        LogicalDeleteDomainClassEnhancer.enhance(grailsApplication.domainClasses)
+        DomainClassEnhancer.enhance(grailsApplication.domainClasses)
         grailsApplication.mainContext.addApplicationListener(new PreQueryListener())
     }
 

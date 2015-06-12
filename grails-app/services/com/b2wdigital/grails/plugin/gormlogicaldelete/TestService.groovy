@@ -1,4 +1,4 @@
-package com.b2wdigital.grails.plugin.logicaldelete
+package com.b2wdigital.grails.plugin.gormlogicaldelete
 
 import grails.transaction.Transactional
 
