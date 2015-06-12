@@ -6,11 +6,11 @@ The main intention of the plugin is to handle cases when certain entities cannot
 
 ## How it works:
 
-Most of the work is done using [AST transformations](http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations).
-For the desired class a new boolean property is added: deleted.
-The GORM method __delete__ is modified to avoid the physical removal and just change the value of the _deleted_ property.
-In addition to the AST transformations, a PreQueryEvent listener is added to filter queries in order to make the logical delete
-logic transparent.
+A boolean property is injected in the annotated domain class using [AST transformations](http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations). This property is used to track the logical _delete state_ of the entity. The name and deleted state value can be customized.
+
+The GORM method __delete()__ is modified to avoid the physical removal and just change the value of the _delete state_ property.
+
+To handle read queries, a __PreQueryEvent__ listener is added in order to make the logical delete logic transparent, adding another criteria to the query so it doesn't match deleted entities.
 
 ## How to use:
 
