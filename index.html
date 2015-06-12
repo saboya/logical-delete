@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gorm Logical Delete by saboya</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Gorm Logical Delete</h1>
+        <p>groovy grails logical delete gorm</p>
+
+        <p class="view"><a href="https://github.com/saboya/gorm-logical-delete">View the Project on GitHub <small>saboya/gorm-logical-delete</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/saboya/gorm-logical-delete/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/saboya/gorm-logical-delete/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/saboya/gorm-logical-delete">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="gorm-logical-delete" class="anchor" href="#gorm-logical-delete" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gorm Logical Delete</h1>
+
+<p>This plugin allows you to do a logical deletion of the domain classes.
+The main intention of the plugin is to handle cases when certain entities cannot be physically removed from the database.</p>
+
+<h2>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How it works:</h2>
+
+<p>Most of the work is done using <a href="http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations">AST transformations</a>.
+For the desired class a new boolean property is added: deleted.
+The GORM method <strong>delete</strong> is modified to avoid the physical removal and just change the value of the <em>deleted</em> property.
+In addition to the AST transformations, a PreQueryEvent listener is added to filter queries in order to make the logical delete
+logic transparent.</p>
+
+<h2>
+<a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use:</h2>
+
+<p>To provide logical deletion to a domain class you just need to add the <strong>@GormLogicalDelete</strong> annotation to it.</p>
+
+<div class="highlight highlight-groovy"><pre><span class="pl-k">@GormLogicalDelete</span>
+<span class="pl-k">class</span> <span class="pl-en">User</span> {
+   <span class="pl-k">String</span> lastName
+   <span class="pl-k">String</span> firstName
+   <span class="pl-k">String</span> nickName
+    <span class="pl-k">..</span>.
+}</pre></div>
+
+<p>To make a logical removal you just need to use the GORM method <em>delete</em>.</p>
+
+<div class="highlight highlight-groovy"><pre>user<span class="pl-k">.</span>delete()</pre></div>
+
+<p>which would be the equivalent to: (using default settings)</p>
+
+<div class="highlight highlight-groovy"><pre>user<span class="pl-k">.</span>deleted <span class="pl-k">=</span> <span class="pl-c1">true</span>
+user<span class="pl-k">.</span>save()</pre></div>
+
+<p>If you want to force a physical deletion to an annotated class, you have to add the <strong>logicalDelete</strong> parameter in <em>false</em> to the <em>delete</em> method:</p>
+
+<div class="highlight highlight-groovy"><pre>user<span class="pl-k">.</span>delete(<span class="pl-c1">logicalDelete</span>: <span class="pl-c1">false</span>)</pre></div>
+
+<p>If you want to use the <strong>logically</strong> deleted elements, you can use the <em>withDeleted</em> method to execute a closure that includes the deleted items:</p>
+
+<div class="highlight highlight-groovy"><pre>user<span class="pl-k">.</span>withDeleted {
+    <span class="pl-k">def</span> deletedUserList <span class="pl-k">=</span> <span class="pl-k">User</span><span class="pl-k">.</span>list()
+}</pre></div>
+
+<h2>
+<a id="customization" class="anchor" href="#customization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customization:</h2>
+
+<p>The plugin also supports customization of the property used and the deletedState value, in order to support current manual implementations.
+For example, if your current implementation relies on the <strong>enabled</strong> property being set to <em>false</em> in order to logically delete an entity,
+you would declare your annotation like this:</p>
+
+<div class="highlight highlight-groovy"><pre><span class="pl-k">@GormLogicalDelete</span>(<span class="pl-c1">property</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>enabled<span class="pl-pds">"</span></span>,<span class="pl-c1">deletedState</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>)
+<span class="pl-k">class</span> <span class="pl-en">User</span> {
+   <span class="pl-k">String</span> lastName
+   <span class="pl-k">String</span> firstName
+   <span class="pl-k">String</span> nickName
+    <span class="pl-k">..</span>.
+}</pre></div>
+
+<p>It defaults to <em>property</em> = <strong>"deleted"</strong> and <em>deletedState</em> = <strong>true</strong></p>
+
+<h2>
+<a id="intellij-code-completion" class="anchor" href="#intellij-code-completion" aria-hidden="true"><span class="octicon octicon-link"></span></a>IntelliJ code-completion:</h2>
+
+<p>There's a GDSL file bundled with code-completion for the <em>deletdState</em> property and <em>withDeleted</em> method.</p>
+
+<h2>
+<a id="credits" class="anchor" href="#credits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Credits:</h2>
+
+<p>This plugin is a fork from the <a href="https://github.com/nanlabs/logical-delete">logical-delete</a> plugin. The original plugin relied on Hibernate filters and HawkEventing, and that wouldn't work for me since I needed it to stay 100% on GORM to be database-agnostic.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/saboya">saboya</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
