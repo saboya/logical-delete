@@ -3,6 +3,7 @@ jdk:
   - oraclejdk7
 env:
   GRAILS_VERSION=2.4.4
+  GRAILS_VERSION=2.3.0
 before_install:
 - rm -rf ~/.gvm
 - curl -s get.gvmtool.net > ~/install_gvm.sh
@@ -15,5 +16,6 @@ branches:
   only:
     - master
 script: grails clean
+  && [[ GRAILS_VERSION =~ ([1-2]\.[0-3]\.[0-9]) ]] && grails upgrade || grails set-grails-version GRAILS_VERSION
   && grails refresh-dependencies
   && grails test-app --non-interactive
