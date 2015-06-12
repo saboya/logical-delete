@@ -109,10 +109,10 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
 
     private boolean getDeletedState(ClassNode node) {
         AnnotationNode annotation = GrailsASTUtils.findAnnotation(node, LogicalDelete.class);
-        if(getMemberValue(annotation,"deletedValue") == null) {
+        if(getMemberValue(annotation,"deletedState") == null) {
             return true;
         }
-        return (Boolean)getMemberValue(annotation, "deletedValue");
+        return (Boolean)getMemberValue(annotation, "deletedState");
     }
 
     private String getDefaultAnnotationArgumentValue(AnnotationNode annotation) {
