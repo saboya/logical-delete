@@ -67,7 +67,7 @@ class User {
     ...
 }
 ```
-It defaults to _proerty_ = __"deleted"__ and _deletedState_ = __true__
+It defaults to _property_ = __"deleted"__ and _deletedState_ = __true__
 
 ## IntelliJ code-completion:
 
