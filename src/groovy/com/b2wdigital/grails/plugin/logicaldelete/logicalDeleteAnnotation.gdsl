@@ -1,0 +1,24 @@
+contributor(context()) {
+    if (hasAnnotation("com.b2wdigital.grails.plugin.logicaldelete.LogicalDelete")) {
+        method name: "withDeleted",
+                type: void.class,
+                params:[callable: {}],
+                isStatic: true
+
+        method name: "setLogicalDeleteState",
+                type: void.class,
+                params: [newValue: boolean.class]
+
+        method name: "getDeletedState",
+                type: boolean.class,
+                params: []
+
+        property name: "deletedStateProperty",
+                type: String.class,
+                isStatic: true
+
+        property name: "deletedStateValue",
+                type: boolean.class,
+                isStatic: true
+    }
+}
