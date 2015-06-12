@@ -16,6 +16,6 @@ branches:
   only:
     - master
 script: grails clean
-  && [[ $GRAILS_VERSION =~ ([1-2]\.[0-3]\.[0-9]) ]] && grails upgrade || grails set-grails-version $GRAILS_VERSION
+  && [[ $GRAILS_VERSION =~ ([1-2]\.[0-3]\.[0-9]) ]] && grails upgrade --non-interactive || grails set-grails-version $GRAILS_VERSION --non-interactive
   && grails refresh-dependencies
   && grails test-app --non-interactive
