@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/saboya/gorm-logical-delete.svg?branch=master)](https://travis-ci.org/saboya/gorm-logical-delete)
 Gorm Logical Delete
 ===================
 
