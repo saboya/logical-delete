@@ -22,7 +22,7 @@ class TestServiceSpec extends Specification {
 
         then: "I should have 4 non-deleted domains"
              TestDomain.list().size() == 4
-            !TestDomain.findByName("test name").deletedState == !false
+            !TestDomain.findByName("test name").deleted == !false
     }
 
     void "deleting annotated domain"() {
@@ -57,13 +57,13 @@ class TestServiceSpec extends Specification {
 
     private void createTestDomains(int qty) {
         qty.times {
-            new TestDomain(name: "name " + it).save()
+            service.saveTestDomain("name " + it)
         }
     }
 
     private void createTestDomainsCustom(int qty) {
         qty.times {
-            new TestDomainCustom(name: "name " + it).save()
+            service.saveTestDomainCustom("name " + it)
         }
     }
 }
