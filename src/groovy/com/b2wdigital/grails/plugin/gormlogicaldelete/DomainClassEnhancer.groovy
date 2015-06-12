@@ -13,7 +13,11 @@ class DomainClassEnhancer {
 
     public static final String PHYSICAL_SESSION = 'physicalSession'
 
-    public static def classProperties = [:]
+    private static def classProperties = [:]
+
+    public static Map getClassProperties(Class clazz) {
+        return classProperties[clazz]
+    }
 
     static void enhance(domainClasses) {
         for (domainClass in domainClasses) {

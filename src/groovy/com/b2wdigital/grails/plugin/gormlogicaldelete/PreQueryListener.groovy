@@ -8,11 +8,11 @@ class PreQueryListener implements ApplicationListener<PreQueryEvent> {
     @Override
     void onApplicationEvent(PreQueryEvent event) {
         def domainClass = event.query.entity.javaClass
-        if(DomainClassEnhancer.classProperties[domainClass]) {
+        if(DomainClassEnhancer.getClassProperties(domainClass)) {
             if(!event.query.session.getSessionProperty(DomainClassEnhancer.PHYSICAL_SESSION)) {
                 event.query.eq(
-                        DomainClassEnhancer.classProperties[domainClass].property,
-                        !DomainClassEnhancer.classProperties[domainClass].deletedState
+                        DomainClassEnhancer.getClassProperties(domainClass).property,
+                        !DomainClassEnhancer.getClassProperties(domainClass).deletedState
                 )
             }
         }
