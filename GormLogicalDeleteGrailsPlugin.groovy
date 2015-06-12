@@ -10,11 +10,12 @@ class GormLogicalDeleteGrailsPlugin {
     def description = '''\
 Allows you to do a logical deletion of domain classes
 
-This is a fork based on Ezequiel Parada's Logical Delete plugin:
+This is a fork based on Nanlabs's Logical Delete plugin:
 https://grails.org/plugin/logical-delete
 
 The original plugin relied on Hibernate filters and HawkEventing. This one
-aims to implement logical deletion using GORM only.
+aims to implement logical deletion using GORM only. It also adds customizable
+property name and deleted state value.
 '''
     def documentation = "https://github.com/saboya/gorm-logical-delete"
 
