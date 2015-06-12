@@ -16,5 +16,4 @@ branches:
     - master
 script: grails clean
   && grails refresh-dependencies
-  && grails upgrade --non-interactive
   && grails test-app --non-interactive
