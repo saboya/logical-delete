@@ -6,8 +6,10 @@
     <title>Gorm Logical Delete by saboya</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -17,10 +19,7 @@
       <header>
         <h1>Gorm Logical Delete</h1>
         <p>groovy grails logical delete gorm</p>
-
         <p class="view"><a href="https://github.com/saboya/gorm-logical-delete">View the Project on GitHub <small>saboya/gorm-logical-delete</small></a></p>
-
-
         <ul>
           <li><a href="https://github.com/saboya/gorm-logical-delete/zipball/master">Download <strong>ZIP File</strong></a></li>
           <li><a href="https://github.com/saboya/gorm-logical-delete/tarball/master">Download <strong>TAR Ball</strong></a></li>
@@ -37,11 +36,11 @@ The main intention of the plugin is to handle cases when certain entities cannot
 <h2>
 <a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How it works:</h2>
 
-<p>Most of the work is done using <a href="http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations">AST transformations</a>.
-For the desired class a new boolean property is added: deleted.
-The GORM method <strong>delete</strong> is modified to avoid the physical removal and just change the value of the <em>deleted</em> property.
-In addition to the AST transformations, a PreQueryEvent listener is added to filter queries in order to make the logical delete
-logic transparent.</p>
+<p>A boolean property is injected in the annotated domain class using <a href="http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations">AST transformations</a>. This property is used to track the logical <em>delete state</em> of the entity. The name and deleted state value can be customized.</p>
+
+<p>The GORM method <strong>delete()</strong> is modified to avoid the physical removal and just change the value of the <em>delete state</em> property.</p>
+
+<p>To handle read queries, a <strong>PreQueryEvent</strong> listener is added in order to make the logical delete logic transparent, adding another criteria to the query so it doesn't match deleted entities.</p>
 
 <h2>
 <a id="how-to-use" class="anchor" href="#how-to-use" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to use:</h2>
@@ -102,12 +101,12 @@ you would declare your annotation like this:</p>
 
 <p>This plugin is a fork from the <a href="https://github.com/nanlabs/logical-delete">logical-delete</a> plugin. The original plugin relied on Hibernate filters and HawkEventing, and that wouldn't work for me since I needed it to stay 100% on GORM to be database-agnostic.</p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/saboya">saboya</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/saboya">saboya</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
   </body>
 </html>
