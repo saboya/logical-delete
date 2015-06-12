@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/saboya/gorm-logical-delete.svg?branch=master)](https://travis-ci.org/saboya/gorm-logical-delete)
+[![Build Status](https://travis-ci.org/saboya/gorm-logical-delete.svg?branch=master)](https://travis-ci.org/saboya/gorm-logical-delete) [![Coverage Status](https://coveralls.io/repos/saboya/gorm-logical-delete/badge.svg?branch=master)](https://coveralls.io/r/saboya/gorm-logical-delete?branch=master)
 Gorm Logical Delete
 ===================
 
