@@ -29,3 +29,5 @@ script: grails clean
   && [[ $GRAILS_VERSION =~ ([1-2]\.[0-3]\.[0-9]) ]] && grails upgrade --non-interactive || grails set-grails-version $GRAILS_VERSION --non-interactive
   && grails refresh-dependencies
   && grails test-app --non-interactive
+after_success:
+  grails coveralls
