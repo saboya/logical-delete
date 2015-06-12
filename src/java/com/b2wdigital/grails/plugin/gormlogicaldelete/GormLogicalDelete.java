@@ -1,4 +1,4 @@
-package com.b2wdigital.grails.plugin.logicaldelete;
+package com.b2wdigital.grails.plugin.gormlogicaldelete;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -9,8 +9,8 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@GroovyASTTransformationClass({"com.b2wdigital.grails.plugin.logicaldelete.LogicalDeleteASTTRansformation"})
-public @interface LogicalDelete {
+@GroovyASTTransformationClass({"com.b2wdigital.grails.plugin.gormlogicaldelete.GormLogicalDeleteASTTRansformation"})
+public @interface GormLogicalDelete {
     String property() default "deleted";
     boolean deletedState() default true;
 }
