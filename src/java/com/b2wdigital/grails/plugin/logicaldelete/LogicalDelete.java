@@ -12,5 +12,5 @@ import org.codehaus.groovy.transform.GroovyASTTransformationClass;
 @GroovyASTTransformationClass({"com.b2wdigital.grails.plugin.logicaldelete.LogicalDeleteASTTRansformation"})
 public @interface LogicalDelete {
     String property() default "deleted";
-    boolean deletedStateValue() default true;
+    boolean deletedState() default true;
 }
