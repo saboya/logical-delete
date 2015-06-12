@@ -21,7 +21,7 @@ grails.project.dependency.resolution = {
         build 'org.apache.httpcomponents:httpmime:4.3.3'
     }
     plugins {
-        build ':release:3.1.1', ':rest-client-builder:2.1.1', {
+        build ':coveralls:0.1.3', ':release:3.1.1', ':rest-client-builder:2.1.1', {
           export = false
         }
         test(':code-coverage:2.0.3-3') {
