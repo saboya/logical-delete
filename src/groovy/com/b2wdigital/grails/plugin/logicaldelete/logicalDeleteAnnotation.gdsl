@@ -2,38 +2,17 @@ package com.b2wdigital.grails.plugin.logicaldelete
 
 def packageName = "com.b2wdigital.grails.plugin.logicaldelete."
 def annotationClassFqn = packageName + "LogicalDelete"
-def astTransformClassFqn = packageName + "LogicalDeleteASTTRansformation"
 def ctx = context(ctype: hasAnnotation(annotationClassFqn))
 
 contributor(ctx) {
     def annotation = psiClass?.getAnnotation(annotationClassFqn)
-    def astTransformClass = findClass(astTransformClassFqn)
-
 
     property name: annotation.findAttributeValue("property").getValue(),
             type: boolean.class,
-            default: annotation.findAttributeValue("deletedStateValue").getValue()
+            default: annotation.findAttributeValue("deletedState").getValue()
 
     method name: "withDeleted",
             type: void.class,
             params: [callable: {}],
             isStatic: true
-
-    method name: astTransformClass.findFieldByName("SETTER_METHOD_NAME",false).getInitializer().getValue(),
-            type: void.class,
-            params: [newValue: boolean.class]
-
-    method name: astTransformClass.findFieldByName("GETTER_METHOD_NAME",false).getInitializer().getValue(),
-            type: boolean.class,
-            params: []
-
-    property name: astTransformClass.findFieldByName("STATIC_PROPERTY_NAME",false).getInitializer().getValue(),
-            type: String.class,
-            isStatic: true,
-            isFinal: true
-
-    property name: astTransformClass.findFieldByName("STATIC_DELETED_VALUE_NAME",false).getInitializer().getValue(),
-            type: boolean.class,
-            isStatic: true,
-            isFinal: true
 }

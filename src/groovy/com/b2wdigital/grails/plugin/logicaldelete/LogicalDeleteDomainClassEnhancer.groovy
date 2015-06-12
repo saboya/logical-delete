@@ -3,6 +3,7 @@ package com.b2wdigital.grails.plugin.logicaldelete
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.grails.datastore.mapping.core.Session
+import java.lang.annotation.Annotation
 
 class LogicalDeleteDomainClassEnhancer {
 
@@ -12,18 +13,29 @@ class LogicalDeleteDomainClassEnhancer {
 
     public static final String PHYSICAL_SESSION = 'physicalSession'
 
+    public static def classProperties = [:]
+
     static void enhance(domainClasses) {
         for (domainClass in domainClasses) {
             Class clazz = domainClass.clazz
             if (mustBeEnhanced(clazz)) {
                 changeDeleteMethod(clazz)
+                cacheParameters(clazz)
                 addListDeletedMethod(clazz)
             }
         }
     }
 
-    private static boolean mustBeEnhanced(clazz) {
-        LogicalDeleteDomainClass.isAssignableFrom(clazz)
+    private static void cacheParameters(Class clazz) {
+        Annotation a = clazz.getAnnotation(LogicalDelete)
+        classProperties.put(clazz,[
+                property: a.property(),
+                deletedState: a.deletedState()
+        ])
+    }
+
+    private static boolean mustBeEnhanced(Class clazz) {
+        clazz.isAnnotationPresent(LogicalDelete)
     }
 
     private static void addListDeletedMethod(clazz) {
@@ -70,7 +82,7 @@ class LogicalDeleteDomainClassEnhancer {
 
     private static deleteAction = { aSave, aDelegate, args = null ->
         log.debug "Applying logical delete to domain class ${aDelegate.class}"
-        aDelegate.setLogicalDeleteState(aDelegate.deletedStateValue)
+        aDelegate[classProperties[aDelegate.class].property] = classProperties[aDelegate.class].deletedState
         if (args) aSave.invoke(aDelegate) else aSave.invoke(aDelegate, args)
     }
 }
