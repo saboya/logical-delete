@@ -1,8 +1,24 @@
 language: groovy
 jdk:
   - oraclejdk7
+env:
+  GRAILS_VERSION=2.4.4
+  GRAILS_VERSION=2.3.0
+  GRAILS_VERSION=2.2.4
+  GRAILS_VERSION=2.1.5
+  GRAILS_VERSION=2.0.4
+before_install:
+- rm -rf ~/.gvm
+- curl -s get.gvmtool.net > ~/install_gvm.sh
+- chmod 775 ~/install_gvm.sh
+- ~/install_gvm.sh
+- echo "gvm_auto_answer=true" > ~/.gvm/etc/config
+- source ~/.gvm/bin/gvm-init.sh
+- gvm install grails $GRAILS_VERSION || true
 branches:
   only:
     - master
-script: ./grailsw refresh-dependencies
-  && ./grailsw "test-app"
+script: grails clean
+  && grails refresh-dependencies
+  && grails upgrade --non-interactive
+  && grails test-app --non-interactive
