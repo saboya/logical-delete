@@ -28,8 +28,7 @@ property name and deleted state value.
     def scm = [url: 'https://github.com/saboya/gorm-logical-delete']
 
     def pluginExcludes = [
-            "grails-app/domain/**",
-            "grails-app/services/TestService"
+            "grails-app/domain/**"
     ]
 
     def loadAfter = ['domainClass']
