@@ -16,11 +16,6 @@ import org.codehaus.groovy.transform.GroovyASTTransformation;
 @GroovyASTTransformation(phase = CompilePhase.CANONICALIZATION)
 public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
 
-    public final static String GETTER_METHOD_NAME = "getDeletedState";
-    public final static String SETTER_METHOD_NAME = "setLogicalDeleteState";
-    public final static String STATIC_PROPERTY_NAME = "deletedStateProperty";
-    public final static String STATIC_DELETED_VALUE_NAME = "deletedStateValue";
-    public final static String SETTER_PARAM_NAME = "newValue";
     public final static int CLASS_NODE_ORDER = 1;
 
     @Override
@@ -28,8 +23,6 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
         if (!validate(nodes)) return;
         ClassNode classNode = (ClassNode) nodes[CLASS_NODE_ORDER];
         addDeletedProperty(classNode);
-        implementDeletedDomainClassInterface(classNode);
-        addInterfaceMethods(classNode);
     }
 
     private boolean validate(ASTNode[] nodes) {
@@ -49,57 +42,6 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
                     null
             );
         }
-        node.addProperty(
-                STATIC_PROPERTY_NAME,
-                Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL,
-                ClassHelper.STRING_TYPE,
-                new ConstantExpression(propertyName),
-                null,
-                null
-        );
-        node.addProperty(
-                STATIC_DELETED_VALUE_NAME,
-                Modifier.PUBLIC | Modifier.STATIC | Modifier.FINAL,
-                ClassHelper.boolean_TYPE,
-                new ConstantExpression(deletedState,true),
-                null,
-                null
-        );
-    }
-
-    private void addInterfaceMethods(ClassNode node) {
-        node.addMethod(makeGetterMethod(getPropertyName(node)));
-        node.addMethod(makeSetterMethod(getPropertyName(node)));
-    }
-
-    private MethodNode makeGetterMethod(String propertyName) {
-        MethodNode node = new MethodNode(
-                GETTER_METHOD_NAME,
-                Modifier.PUBLIC,
-                ClassHelper.boolean_TYPE,
-                Parameter.EMPTY_ARRAY,
-                null,
-                (BlockStatement)new AstBuilder().buildFromString(
-                        CompilePhase.CANONICALIZATION, "return " + propertyName
-                ).get(0)
-        );
-        return node;
-    }
-
-    private MethodNode makeSetterMethod(String propertyName) {
-        Parameter[] params = new Parameter[1];
-        params[0] = new Parameter(ClassHelper.boolean_TYPE,SETTER_PARAM_NAME);
-        MethodNode node = new MethodNode(
-                SETTER_METHOD_NAME,
-                Modifier.PUBLIC,
-                ClassHelper.VOID_TYPE,
-                params,
-                null,
-                (BlockStatement)new AstBuilder().buildFromString(
-                        CompilePhase.CANONICALIZATION, propertyName + " = " + SETTER_PARAM_NAME
-                ).get(0)
-        );
-        return node;
     }
 
     private String getPropertyName(ClassNode node) {
@@ -119,12 +61,4 @@ public class LogicalDeleteASTTRansformation extends AbstractASTTransformation {
         ReturnStatement stmt = (ReturnStatement)annotation.getClassNode().getMethod("property", Parameter.EMPTY_ARRAY).getCode();
         return (String)((ConstantExpression)stmt.getExpression()).getValue();
     }
-
-    private void implementDeletedDomainClassInterface(ClassNode node) {
-        ClassNode iNode = new ClassNode(LogicalDeleteDomainClass.class);
-        if (!iNode.implementsInterface(iNode)) {
-            node.addInterface(iNode);
-        }
-    }
-
 }
