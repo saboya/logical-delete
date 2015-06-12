@@ -3,6 +3,7 @@ package com.b2wdigital.grails.plugin.gormlogicaldelete
 import org.grails.datastore.mapping.query.event.PreQueryEvent
 import org.springframework.context.ApplicationListener
 
+@Singleton(lazy=true)
 class PreQueryListener implements ApplicationListener<PreQueryEvent> {
 
     @Override

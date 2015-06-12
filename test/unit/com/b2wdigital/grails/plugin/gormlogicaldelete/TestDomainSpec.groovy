@@ -9,7 +9,7 @@ class TestDomainSpec extends Specification {
 
     def setup() {
         DomainClassEnhancer.enhance(grailsApplication.domainClasses)
-        grailsApplication.mainContext.addApplicationListener(new PreQueryListener())
+        grailsApplication.mainContext.addApplicationListener(PreQueryListener.instance)
 
         3.times {
             TestDomain.findOrSaveByName("name" + it)

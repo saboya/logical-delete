@@ -34,7 +34,7 @@ property name and deleted state value.
     def loadAfter = ['domainClass']
 
     def doWithDynamicMethods = { ctx ->
-        ctx.addApplicationListener(new PreQueryListener())
+        ctx.addApplicationListener(PreQueryListener.instance)
         DomainClassEnhancer.enhance(application.domainClasses)
     }
 }
