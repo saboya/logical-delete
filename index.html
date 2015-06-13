@@ -27,7 +27,9 @@
         </ul>
       </header>
       <section>
-        <h1>
+        <p><a href="https://travis-ci.org/saboya/gorm-logical-delete"><img src="https://travis-ci.org/saboya/gorm-logical-delete.svg?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/saboya/gorm-logical-delete?branch=master"><img src="https://coveralls.io/repos/saboya/gorm-logical-delete/badge.svg?branch=master" alt="Coverage Status"></a></p>
+
+<h1>
 <a id="gorm-logical-delete" class="anchor" href="#gorm-logical-delete" aria-hidden="true"><span class="octicon octicon-link"></span></a>Gorm Logical Delete</h1>
 
 <p>This plugin allows you to do a logical deletion of the domain classes.
@@ -36,7 +38,7 @@ The main intention of the plugin is to handle cases when certain entities cannot
 <h2>
 <a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span class="octicon octicon-link"></span></a>How it works:</h2>
 
-<p>A boolean property is injected in the annotated domain class using <a href="http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations">AST transformations</a>. This property is used to track the logical <em>delete state</em> of the entity. The name and deleted state value can be customized.</p>
+<p>A boolean property is injected in the annotated domain class using <a href="http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations">AST transformations</a>. This property is used to track the logical <em>deleted state</em> of the entity. The name and deleted state value can be customized.</p>
 
 <p>The GORM method <strong>delete()</strong> is modified to avoid the physical removal and just change the value of the <em>delete state</em> property.</p>
 
@@ -64,11 +66,11 @@ The main intention of the plugin is to handle cases when certain entities cannot
 <div class="highlight highlight-groovy"><pre>user<span class="pl-k">.</span>deleted <span class="pl-k">=</span> <span class="pl-c1">true</span>
 user<span class="pl-k">.</span>save()</pre></div>
 
-<p>If you want to force a physical deletion to an annotated class, you have to add the <strong>logicalDelete</strong> parameter in <em>false</em> to the <em>delete</em> method:</p>
+<p>If you want to force a physical deletion to an annotated class, you have to add the <strong>logicalDelete</strong> parameter set to <em>false</em> to the <em>delete</em> method:</p>
 
 <div class="highlight highlight-groovy"><pre>user<span class="pl-k">.</span>delete(<span class="pl-c1">logicalDelete</span>: <span class="pl-c1">false</span>)</pre></div>
 
-<p>If you want to use the <strong>logically</strong> deleted elements, you can use the <em>withDeleted</em> method to execute a closure that includes the deleted items:</p>
+<p>If you want to query the <strong>logically</strong> deleted elements, you can use the <em>withDeleted</em> method to execute a closure that includes the deleted items:</p>
 
 <div class="highlight highlight-groovy"><pre>user<span class="pl-k">.</span>withDeleted {
     <span class="pl-k">def</span> deletedUserList <span class="pl-k">=</span> <span class="pl-k">User</span><span class="pl-k">.</span>list()
@@ -78,8 +80,7 @@ user<span class="pl-k">.</span>save()</pre></div>
 <a id="customization" class="anchor" href="#customization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customization:</h2>
 
 <p>The plugin also supports customization of the property used and the deletedState value, in order to support current manual implementations.
-For example, if your current implementation relies on the <strong>enabled</strong> property being set to <em>false</em> in order to logically delete an entity,
-you would declare your annotation like this:</p>
+For example, if your current implementation relies on the <strong>enabled</strong> property being set to <em>false</em> in order to logically delete an entity, you would declare your annotation like this:</p>
 
 <div class="highlight highlight-groovy"><pre><span class="pl-k">@GormLogicalDelete</span>(<span class="pl-c1">property</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>enabled<span class="pl-pds">"</span></span>,<span class="pl-c1">deletedState</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>)
 <span class="pl-k">class</span> <span class="pl-en">User</span> {
