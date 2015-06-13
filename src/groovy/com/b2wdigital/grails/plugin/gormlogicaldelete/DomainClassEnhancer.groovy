@@ -72,7 +72,7 @@ class DomainClassEnhancer {
 
         clazz.metaClass.delete = { Map m ->
             if (m.containsKey(PHYSICAL_PARAM) && !m[PHYSICAL_PARAM]) {
-                if (m.count { true } > 1) {
+                if (m.size() > 1) {
                     def args = m.dropWhile { it.key == PHYSICAL_PARAM }
                     gormDeleteWithArgsMethod.invoke(delegate, args)
                 } else {
