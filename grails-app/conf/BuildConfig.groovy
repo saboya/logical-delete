@@ -31,5 +31,5 @@ grails.project.dependency.resolution = {
 }
 
 coverage {
-    exclusions = ["**/GormLogicalDeleteASTTRansformation*"]
+    exclusions = ["**/TestDomain*","**/GormLogicalDeleteASTTRansformation*"]
 }
