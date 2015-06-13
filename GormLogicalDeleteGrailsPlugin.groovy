@@ -3,7 +3,7 @@ import com.b2wdigital.grails.plugin.gormlogicaldelete.PreQueryListener
 
 class GormLogicalDeleteGrailsPlugin {
     def version = "1.0"
-    def grailsVersion = "2.4.4 > *"
+    def grailsVersion = "2.4.0 > *"
     def title = "Gorm Logical Delete Plugin"
     def author = "Rodrigo Saboya"
     def authorEmail = "rodrigo.saboya@b2wdigital.com.br"
