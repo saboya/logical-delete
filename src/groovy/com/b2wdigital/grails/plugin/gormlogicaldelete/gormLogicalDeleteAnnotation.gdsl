@@ -15,4 +15,12 @@ contributor(ctx) {
             type: void.class,
             params: [callable: {}],
             isStatic: true
+
+    method name: "delete",
+            type: void.class,
+            params: [:],
+            namedParams: [
+                    parameter(name: 'flush', type: boolean.class),
+                    parameter(name: 'logicalDelete', type: boolean.classs)
+            ]
 }
