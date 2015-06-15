@@ -1,9 +1,11 @@
 import com.b2wdigital.grails.plugin.gormlogicaldelete.DomainClassEnhancer
 import com.b2wdigital.grails.plugin.gormlogicaldelete.PreQueryListener
+import com.b2wdigital.grails.plugin.gormlogicaldelete.GormLogicalDelete
+import org.springframework.beans.factory.config.MapFactoryBean
 
 class GormLogicalDeleteGrailsPlugin {
     def version = "1.0"
-    def grailsVersion = "2.4.0 > *"
+    def grailsVersion = "2.3.0 > *"
     def title = "Gorm Logical Delete Plugin"
     def author = "Rodrigo Saboya"
     def authorEmail = "rodrigo.saboya@b2wdigital.com.br"
@@ -33,8 +35,24 @@ property name and deleted state value.
 
     def loadAfter = ['domainClass']
 
+
+    def doWithSpring = {
+        beans {
+            logicalDeleteDomains(MapFactoryBean) { bean ->
+                sourceMap = application.domainClasses*.clazz.findAll{ it.isAnnotationPresent(GormLogicalDelete) }.collectEntries { clazz ->
+                    [(clazz): [
+                            property    : clazz.getAnnotation(GormLogicalDelete).property(),
+                            deletedState: clazz.getAnnotation(GormLogicalDelete).deletedState()
+                    ]]
+                }
+            }
+            logicalDeletePreQueryListener(PreQueryListener) { bean ->
+                logicalDeleteDomains = ref('logicalDeleteDomains') // Needed for Grails < 2.3.5
+            }
+        }
+    }
+
     def doWithDynamicMethods = { ctx ->
-        ctx.addApplicationListener(PreQueryListener.instance)
-        DomainClassEnhancer.enhance(application.domainClasses)
+        DomainClassEnhancer.enhance(ctx.getBean('logicalDeleteDomains').keySet())
     }
 }
