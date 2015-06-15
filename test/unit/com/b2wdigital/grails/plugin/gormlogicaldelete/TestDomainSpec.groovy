@@ -1,6 +1,6 @@
 package com.b2wdigital.grails.plugin.gormlogicaldelete
 
-import grails.test.mixin.Mock
+import org.springframework.beans.factory.config.MapFactoryBean
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
@@ -8,8 +8,21 @@ import spock.lang.Specification
 class TestDomainSpec extends Specification {
 
     def setup() {
-        DomainClassEnhancer.enhance(grailsApplication.domainClasses)
-        grailsApplication.mainContext.addApplicationListener(PreQueryListener.instance)
+        defineBeans {
+            logicalDeleteDomains(MapFactoryBean) { bean ->
+                sourceMap = grailsApplication.domainClasses*.clazz.findAll{ it.isAnnotationPresent(GormLogicalDelete) }.collectEntries { clazz ->
+                    [(clazz): [
+                            property    : clazz.getAnnotation(GormLogicalDelete).property(),
+                            deletedState: clazz.getAnnotation(GormLogicalDelete).deletedState()
+                    ]]
+                }
+            }
+            logicalDeletePreQueryListener(PreQueryListener) { bean ->
+                logicalDeleteDomains = ref('logicalDeleteDomains') // Needed for Grails < 2.3.5
+            }
+        }
+        DomainClassEnhancer.enhance(mainContext.getBean('logicalDeleteDomains').keySet())
+        mainContext.addApplicationListener(mainContext.getBean("logicalDeletePreQueryListener"))
 
         3.times {
             TestDomain.findOrSaveByName("name" + it)
