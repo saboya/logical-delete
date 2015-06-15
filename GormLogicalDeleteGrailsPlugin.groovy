@@ -4,7 +4,7 @@ import com.b2wdigital.grails.plugin.gormlogicaldelete.GormLogicalDelete
 import org.springframework.beans.factory.config.MapFactoryBean
 
 class GormLogicalDeleteGrailsPlugin {
-    def version = "1.0"
+    def version = "1.1"
     def grailsVersion = "2.3.0 > *"
     def title = "Gorm Logical Delete Plugin"
     def author = "Rodrigo Saboya"
