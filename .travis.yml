@@ -25,6 +25,9 @@ matrix:
     - env: GRAILS_VERSION=2.3.11
     - env: GRAILS_VERSION=2.3.5
     - env: GRAILS_VERSION=2.3.0
+branches:
+  except:
+    - gh-pages
 script: [[ $GRAILS_VERSION =~ ([1-2]\.[0-3]\.[0-9]) ]] && grails upgrade --non-interactive || grails set-grails-version $GRAILS_VERSION --non-interactive
   && grails test-app -coverage -xml --non-interactive
 after_success:
