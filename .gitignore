@@ -13,3 +13,6 @@ grails-logical-delete-*.zip.sha1
 /target-eclipse/
 .classpath
 .project
+*.iml
+/.idea/
+
