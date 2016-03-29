@@ -5,6 +5,16 @@ Gorm Logical Delete
 This plugin allows you to do a logical deletion of the domain classes.
 The main intention of the plugin is to handle cases when certain entities cannot be physically removed from the database.
 
+## Installation:
+
+The plugin is now in the grails.org repository: [Gorm Logical Delete Plugin](https://grails.org/plugin/gorm-logical-delete).
+
+To install it, add it to your __BuildConfig.groovy__:
+
+```groovy
+compile "org.grails.plugins:gorm-logical-delete:1.1"
+```
+
 ## How it works:
 
 A boolean property is injected in the annotated domain class using [AST transformations](http://groovy.codehaus.org/Compile-time+Metaprogramming+-+AST+Transformations). This property is used to track the logical _deleted state_ of the entity. The name and deleted state value can be customized.
