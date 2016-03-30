@@ -13,13 +13,16 @@ env:
   - GRAILS_VERSION=2.3.5
   - GRAILS_VERSION=2.3.0
 before_install:
-- rm -rf ~/.sdkman
 - curl -s http://get.sdkman.io > ~/install_sdkman.sh
 - chmod 775 ~/install_sdkman.sh
 - ~/install_sdkman.sh
 - echo "sdkman_auto_answer=true" > ~/.sdkman/etc/config
 - source ~/.sdkman/bin/sdkman-init.sh
 - sdk install grails $GRAILS_VERSION || true
+cache:
+  directories:
+    - $HOME/.sdkman
+    - $HOME/.m2
 matrix:
   allow_failures:
     - env: GRAILS_VERSION=2.3.11
