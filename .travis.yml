@@ -14,6 +14,7 @@ env:
   - GRAILS_VERSION=2.3.5
   - GRAILS_VERSION=2.3.0
 before_install:
+- source ~/.sdkman/bin/sdkman-init.sh
 - mkdir -p ~/.sdkman/etc
 - echo "sdkman_auto_answer=true" > ~/.sdkman/etc/config
 - sdk install grails $GRAILS_VERSION || true
